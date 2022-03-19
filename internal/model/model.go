@@ -11,14 +11,19 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
+const (
+	STATE_OPEN  = 1
+	STATE_CLOSE = 0
+)
+
 type Model struct {
-	ID         uint32 `grom:"primary_key" json:"id"`
-	CreatedBy  string `json:"created_by"`
-	ModifiedBy string `json:"modified_by"`
-	CreatedOn  string `json:"created_on"`
-	ModifiedOn string `json:"modified_on"`
-	DeletedOn  string `json:"deleted_on"`
-	IsDel      uint8  `json:"is_del"`
+	ID         uint32 `grom:"primary_key" json:"id,omitempty"`
+	CreatedBy  string `json:"created_by,omitempty"`
+	ModifiedBy string `json:"modified_by,omitempty"`
+	CreatedOn  string `json:"created_on,omitempty"`
+	ModifiedOn string `json:"modified_on,omitempty"`
+	DeletedOn  string `json:"deleted_on,omitempty"`
+	IsDel      uint8  `json:"is_del,omitempty"`
 }
 
 // tag.go

@@ -49,7 +49,7 @@ func (a ArticleTag) UpdateOne(db *gorm.DB, values interface{}) error {
 }
 
 func (a ArticleTag) Delete(db *gorm.DB) error {
-	if err := db.Where("article_id = ? AND is_del = ?", a.Model.ID, 0).Delete(&a).Error; err != nil {
+	if err := db.Where("id = ? AND is_del = ?", a.ArticleID, 0).Delete(&a).Error; err != nil {
 		return err
 	}
 

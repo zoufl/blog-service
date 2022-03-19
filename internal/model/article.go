@@ -69,8 +69,10 @@ func (a Article) ListByTagID(db *gorm.DB, tagID uint32, pageOffset, pageSize int
 	for rows.Next() {
 		r := &ArticleRow{}
 		if err := rows.Scan(&r.ArticleID, &r.ArticleTitle, &r.ArticleDesc, &r.CoverImageUrl, &r.Content, &r.TagID, &r.TagName); err != nil {
-			articles = append(articles, r)
+			return nil, err
 		}
+
+		articles = append(articles, r)
 	}
 
 	return articles, nil
