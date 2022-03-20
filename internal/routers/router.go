@@ -2,6 +2,7 @@ package routers
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-programming-tour-book/blog-service/docs"
@@ -15,11 +16,16 @@ import (
 
 func NewRouter() *gin.Engine {
 	r := gin.New()
-	r.Use(gin.Logger())
+	// r.Use(gin.Logger())
+	r.Use(middleware.AccessLog())
 	r.Use(gin.Recovery())
+	r.Use(middleware.Tracing())
+	r.Use(middleware.ContextTimeout(time.Duration(global.AppSetting.DefaultContextTimeout)))
 	r.Use(middleware.Translations())
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	r.GET("/auth", api.GetAuth)
 
 	var upload = api.NewUpload()
 	r.POST("/upload/file", upload.UploadFile)
@@ -29,6 +35,7 @@ func NewRouter() *gin.Engine {
 	var tag = v1.NewTag()
 
 	apiv1 := r.Group("/api/v1")
+	apiv1.Use(middleware.JWT())
 	{
 		apiv1.POST("/tags", tag.Create)
 		apiv1.DELETE("/tags/:id", tag.Delete)

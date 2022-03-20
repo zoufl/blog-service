@@ -9,6 +9,7 @@ import (
 	"github.com/go-programming-tour-book/blog-service/pkg/setting"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	opgorm "github.com/eddycjy/opentracing-gorm"
 )
 
 const (
@@ -96,6 +97,8 @@ func NewDBEngine(databaseSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
 	db.Callback().Delete().Replace("gorm:delete", deleteCallback)
 	db.DB().SetConnMaxIdleTime(time.Duration(databaseSetting.MaxIdleConns))
 	db.DB().SetMaxOpenConns(databaseSetting.MaxOpenConns)
+
+	opgorm.AddGormCallbacks(db)
 
 	return db, nil
 }

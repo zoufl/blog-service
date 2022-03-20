@@ -4,6 +4,7 @@ Server:
     ReadTimeout: 60
     WriteTimeout: 60
 App:
+    DefaultContextTimeout: 60
     DefaultPageSize: 10
     MaxPageSize: 100
     LogSavePath: storage/logs
@@ -27,3 +28,7 @@ Database:
     ParseTime: True
     MaxIdleConns: 10
     MaxOpenConns: 30
+JWT:
+    Secret: go-programming-tour-book
+    Issuer: blog-service
+    Expire: 7200
